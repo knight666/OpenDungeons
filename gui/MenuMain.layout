@@ -2,58 +2,96 @@
 
 <GUILayout version="4" >
     <Window type="OD/StaticImage" name="Background" >
-        <Property name="Area" value="{{0,0},{0,0},{1,2},{1,0}}" />
+        <Property name="Area" value="{{0,0},{0,1},{1,0},{1,1}}" />
         <Property name="Image" value="ODMainMenuBackground/MainMenuBackground" />
         <Property name="MaxSize" value="{{1,0},{1,0}}" />
-        <Property name="FrameEnabled" value="False" />
-        <Property name="BackgroundEnabled" value="False" />
+        <Property name="FrameEnabled" value="false" />
+        <Property name="BackgroundEnabled" value="false" />
+        <Window type="DefaultWindow" name="MenuItems" >
+            <Property name="Area" value="{{0,0},{0,-1},{1,0},{1,-1}}" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Window type="OD/MainMenuButton" name="StartMultiplayerClientButton" >
+                <Property name="Area" value="{{0,330},{0,415},{0,630},{0,475}}" />
+                <Property name="Text" value="JOIN GAME" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+            <Window type="OD/MainMenuButton" name="StartMultiplayerServerButton" >
+                <Property name="Area" value="{{0,330},{0,340},{0,630},{0,400}}" />
+                <Property name="Text" value="HOST GAME" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+            <Window type="OD/MainMenuButton" name="LoadGameButton" >
+                <Property name="Area" value="{{0,15},{0,190},{0,315},{0,250}}" />
+                <Property name="Text" value="LOAD GAME" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+            <Window type="OD/MainMenuButton" name="SettingsButton" >
+                <Property name="Area" value="{{0,15},{0,340},{0,315},{0,400}}" />
+                <Property name="Text" value="SETTINGS" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+            <Window type="OD/MainMenuButton" name="ReplayButton" >
+                <Property name="Area" value="{{0,15},{0,415},{0,315},{0,475}}" />
+                <Property name="Text" value="REPLAY" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+            <Window type="OD/MainMenuButton" name="QuitButton" >
+                <Property name="Area" value="{{0,15},{0,565},{0,315},{0,625}}" />
+                <Property name="Text" value="QUIT" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+            <Window type="OD/MainMenuButton" name="MapEditorButton" >
+                <Property name="Area" value="{{0,15},{0,490},{0,315},{0,550}}" />
+                <Property name="Text" value="MAP EDITOR" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+            <Window type="OD/MainMenuButton" name="MultiplayerButton" >
+                <Property name="Area" value="{{0,15},{0,265},{0,315},{0,325}}" />
+                <Property name="Text" value="MULTIPLAYER" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+            <Window type="OD/MainMenuButton" name="StartSkirmishButton" >
+                <Property name="Area" value="{{0,330},{0,265},{0,630},{0,325}}" />
+                <Property name="Text" value="SKIRMISH" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+            <Window type="OD/MainMenuButton" name="LoadGameButton2" >
+                <Property name="Area" value="{{0,15},{0,115},{0,315},{0,175}}" />
+                <Property name="Text" value="CONTINUE" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+        </Window>
+        <Window type="OD/StaticText" name="VersionText" >
+            <Property name="Area" value="{{1,-120},{0,145},{1,-20},{0,165}}" />
+            <Property name="Text" value="Undefined" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="FrameEnabled" value="false" />
+            <Property name="BackgroundEnabled" value="false" />
+            <AutoWindow namePath="__auto_hscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+            </AutoWindow>
+            <AutoWindow namePath="__auto_vscrollbar__" >
+                <Property name="VerticalScrollbar" value="true" />
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+            </AutoWindow>
+        </Window>
         <Window type="OD/StaticImage" name="WelcomeBanner" >
-            <Property name="Area" value="{{0.5,-320},{0,52},{0.5,320},{0,191}}" />
+            <Property name="Area" value="{{1,-660},{0,25},{1,-20},{0,164}}" />
             <Property name="Image" value="ODLogo/Logo" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
             <Property name="MinSize" value="{{0,640},{0,139}}" />
-            <Property name="FrameEnabled" value="False" />
-            <Property name="BackgroundEnabled" value="False" />
-        </Window>
-        <Window type="OD/StaticText" name="VersionText" >
-            <Property name="Area" value="{{0.5,200},{0,171},{0.5,300},{0,191}}" />
-            <Property name="Text" value="Undefined" />
-            <Property name="MaxSize" value="{{1,0},{1,0}}" />
-            <Property name="FrameEnabled" value="False" />
-            <Property name="BackgroundEnabled" value="False" />
-        </Window>
-        <Window type="OD/MainMenuButton" name="StartSkirmishButton" >
-            <Property name="Area" value="{{0.5,-310},{0.5,-10},{0.5,-170},{0.5,70}}" />
-            <Property name="Text" value="Skirmish" />
-        </Window>
-        <Window type="OD/MainMenuButton" name="LoadGameButton" >
-            <Property name="Area" value="{{0.5,-310},{0.5,100},{0.5,-170},{0.5,180}}" />
-            <Property name="Text" value="Load" />
-        </Window>
-        <Window type="OD/MainMenuButton" name="StartMultiplayerClientButton" >
-            <Property name="Area" value="{{0.5,-150},{0.5,-10},{0.5,-10},{0.5,70}}" />
-            <Property name="Text" value="Join Game" />
-        </Window>
-        <Window type="OD/MainMenuButton" name="StartMultiplayerServerButton" >
-            <Property name="Area" value="{{0.5,-150},{0.5,100},{0.5,-10},{0.5,180}}" />
-            <Property name="Text" value="Host Game" />
-        </Window>
-        <Window type="OD/MainMenuButton" name="MapEditorButton" >
-            <Property name="Area" value="{{0.5,10},{0.5,-10},{0.5,150},{0.5,70}}" />
-            <Property name="Text" value="Map Editor" />
-        </Window>
-        <Window type="OD/MainMenuButton" name="StartReplayButton" >
-            <Property name="Area" value="{{0.5,10},{0.5,100},{0.5,150},{0.5,180}}" />
-            <Property name="Text" value="Replay" />
-        </Window>
-        <Window type="OD/MainMenuButton" name="QuitButton" >
-            <Property name="Area" value="{{0.5,170},{0.5,40},{0.5,310},{0.5,120}}" />
-            <Property name="Text" value="Quit" />
-        </Window>
-        <Window type="OD/IconButton" name="SettingsButton" >
-            <Property name="Area" value="{{1,-97},{0,5},{1,-2},{0,30}}" />
-            <Property name="IconImage" value="OpenDungeonsIcons/OptionsIcon" />
-            <Property name="Text" value="Settings" />
+            <Property name="FrameEnabled" value="false" />
+            <Property name="BackgroundEnabled" value="false" />
         </Window>
     </Window>
 </GUILayout>

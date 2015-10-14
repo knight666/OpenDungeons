@@ -1,4 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project CEGUIDefaultResolution="1024x768" CEGUIVersion="0.8" baseDirectory="." fontsPath="." imagesetsPath="." layoutsPath="." looknfeelsPath="." schemesPath="." version="CEED Project 1" xmlSchemasPath="schemas">
-    <Items />
+<Project CEGUIDefaultResolution="1280x720" CEGUIVersion="0.8" baseDirectory="." fontsPath="fonts" imagesetsPath="." layoutsPath="." looknfeelsPath="." schemesPath="." version="CEED Project 1" xmlSchemasPath="schemas">
+    <Items>
+        <Item path="MenuConfigureSeats.layout" type="file" />
+        <Item path="MenuEditor.layout" type="file" />
+        <Item path="MenuLoad.layout" type="file" />
+        <Item path="MenuMain.layout" type="file" />
+        <Item path="MenuMultiplayerClient.layout" type="file" />
+        <Item path="MenuMultiplayerServer.layout" type="file" />
+        <Item path="MenuReplay.layout" type="file" />
+        <Item path="MenuSkirmish.layout" type="file" />
+        <Item path="ModeEditor.layout" type="file" />
+        <Item path="ModeGame.layout" type="file" />
+        <Item path="OD.looknfeel" type="file" />
+        <Item path="ODBackgrounds.imageset" type="file" />
+        <Item path="ODIcons.imageset" type="file" />
+        <Item path="ODLogo.imageset" type="file" />
+        <Item path="ODMainMenuBackground.imageset" type="file" />
+        <Item path="ODMainMenuButtons.imageset" type="file" />
+        <Item path="ODSkin.imageset" type="file" />
+        <Item path="ODSkin.scheme" type="file" />
+        <Item path="WidgetsTest.layout" type="file" />
+        <Item path="WindowApplyChanges.layout" type="file" />
+        <Item path="WindowChat.layout" type="file" />
+        <Item path="WindowConsole.layout" type="file" />
+        <Item path="WindowEditorOptions.layout" type="file" />
+        <Item path="WindowEvent.layout" type="file" />
+        <Item path="WindowGameOptions.layout" type="file" />
+        <Item path="WindowHelp.layout" type="file" />
+        <Item path="WindowObjectives.layout" type="file" />
+        <Item path="WindowPlayerSettings.layout" type="file" />
+        <Item path="WindowQuit.layout" type="file" />
+        <Item path="WindowResearchTree.layout" type="file" />
+        <Item path="WindowSettings.layout" type="file" />
+        <Item path="WindowTabCreatures.layout" type="file" />
+        <Item path="WindowTabRooms.layout" type="file" />
+        <Item path="WindowTabSpells.layout" type="file" />
+        <Item path="WindowTabTraps.layout" type="file" />
+    </Items>
 </Project>
