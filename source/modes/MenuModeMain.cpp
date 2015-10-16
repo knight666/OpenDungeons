@@ -26,6 +26,7 @@
 #include "render/TextRenderer.h"
 #include "sound/MusicPlayer.h"
 #include "utils/ConfigManager.h"
+#include "utils/LogManager.h"
 
 #include <CEGUI/widgets/PushButton.h>
 
@@ -48,26 +49,25 @@ public:
 
 MenuModeMain::MenuModeMain(ModeManager *modeManager):
     AbstractApplicationMode(modeManager, ModeManager::MENU_MAIN),
+    mRoot(getModeManager().getGui().getGuiSheet(Gui::mainMenu)),
     mSettings(SettingsWindow(getModeManager().getGui().getGuiSheet(Gui::mainMenu)))
 {
-    connectModeChangeEvent(Gui::MM_BUTTON_MAPEDITOR, AbstractModeManager::ModeType::MENU_EDITOR);
-    connectModeChangeEvent(Gui::MM_BUTTON_START_SKIRMISH, AbstractModeManager::ModeType::MENU_SKIRMISH);
-    connectModeChangeEvent(Gui::MM_BUTTON_START_REPLAY, AbstractModeManager::ModeType::MENU_REPLAY);
-    connectModeChangeEvent(Gui::MM_BUTTON_START_MULTIPLAYER_CLIENT, AbstractModeManager::ModeType::MENU_MULTIPLAYER_CLIENT);
-    connectModeChangeEvent(Gui::MM_BUTTON_START_MULTIPLAYER_SERVER, AbstractModeManager::ModeType::MENU_MULTIPLAYER_SERVER);
-    connectModeChangeEvent(Gui::MM_BUTTON_LOAD_GAME, AbstractModeManager::ModeType::MENU_LOAD_SAVEDGAME);
+    CEGUI::Window* pMenuItems = mRoot->getChild("MenuItems");
+    OD_ASSERT_TRUE(pMenuItems != nullptr);
+
+    connectModeChangeEvent(pMenuItems, "MapEditorButton", AbstractModeManager::ModeType::MENU_EDITOR);
+    connectModeChangeEvent(pMenuItems, "StartSkirmishButton", AbstractModeManager::ModeType::MENU_SKIRMISH);
+    connectModeChangeEvent(pMenuItems, "StartReplayButton", AbstractModeManager::ModeType::MENU_REPLAY);
+    connectModeChangeEvent(pMenuItems, "StartMultiplayerClientButton", AbstractModeManager::ModeType::MENU_MULTIPLAYER_CLIENT);
+    connectModeChangeEvent(pMenuItems, "StartMultiplayerServerButton", AbstractModeManager::ModeType::MENU_MULTIPLAYER_SERVER);
+    connectModeChangeEvent(pMenuItems, "LoadGameButton", AbstractModeManager::ModeType::MENU_LOAD_SAVEDGAME);
+
+    CEGUI::Window* pQuitButton = pMenuItems->getChild("QuitButton");
+    OD_ASSERT_TRUE(pQuitButton != nullptr);
     addEventConnection(
-        getModeManager().getGui().getGuiSheet(Gui::mainMenu)->getChild(Gui::MM_BUTTON_QUIT)->subscribeEvent(
+        pQuitButton->subscribeEvent(
             CEGUI::PushButton::EventClicked,
             CEGUI::Event::Subscriber(&MenuModeMain::quitButtonPressed, this)
-        )
-    );
-
-    CEGUI::Window* rootWin = getModeManager().getGui().getGuiSheet(Gui::mainMenu);
-    addEventConnection(
-        rootWin->getChild("SettingsButton")->subscribeEvent(
-            CEGUI::PushButton::EventClicked,
-            CEGUI::Event::Subscriber(&MenuModeMain::toggleSettings, this)
         )
     );
 }
@@ -89,12 +89,13 @@ void MenuModeMain::activate()
     gameMap->setGamePaused(true);
 }
 
-void MenuModeMain::connectModeChangeEvent(const std::string& buttonName, AbstractModeManager::ModeType mode)
+void MenuModeMain::connectModeChangeEvent(CEGUI::Window* parent, const std::string& buttonName, AbstractModeManager::ModeType mode)
 {
-    CEGUI::Window* window = getModeManager().getGui().getGuiSheet(Gui::mainMenu);
+    CEGUI::Window* childButton = parent->getChild("MapEditorButton");
+    OD_ASSERT_TRUE(childButton != nullptr);
 
     addEventConnection(
-        window->getChild(buttonName)->subscribeEvent(
+        childButton->subscribeEvent(
           CEGUI::PushButton::EventClicked,
           CEGUI::Event::Subscriber(ModeChanger{this, mode})
         )
