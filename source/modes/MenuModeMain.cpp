@@ -30,23 +30,6 @@
 
 #include <CEGUI/widgets/PushButton.h>
 
-namespace
-{
-//! \brief Helper functor to change modes
-class ModeChanger
-{
-public:
-    bool operator()(const CEGUI::EventArgs& e)
-    {
-        mMode->changeModeEvent(mNewMode, e);
-        return true;
-    }
-
-    MenuModeMain* mMode;
-    AbstractModeManager::ModeType mNewMode;
-};
-} // namespace
-
 MenuModeMain::MenuModeMain(ModeManager *modeManager):
     AbstractApplicationMode(modeManager, ModeManager::MENU_MAIN),
     mRoot(getModeManager().getGui().getGuiSheet(Gui::mainMenu)),
@@ -62,12 +45,24 @@ MenuModeMain::MenuModeMain(ModeManager *modeManager):
     connectModeChangeEvent(pMenuItems, "StartMultiplayerServerButton", AbstractModeManager::ModeType::MENU_MULTIPLAYER_SERVER);
     connectModeChangeEvent(pMenuItems, "LoadGameButton", AbstractModeManager::ModeType::MENU_LOAD_SAVEDGAME);
 
+    CEGUI::Window* pSettingsButton = pMenuItems->getChild("SettingsButton");
+    OD_ASSERT_TRUE(pSettingsButton != nullptr);
+    addEventConnection(
+        pSettingsButton->subscribeEvent(
+            CEGUI::PushButton::EventClicked,
+            CEGUI::Event::Subscriber(&MenuModeMain::toggleSettings, this)
+        )
+    );
+
     CEGUI::Window* pQuitButton = pMenuItems->getChild("QuitButton");
     OD_ASSERT_TRUE(pQuitButton != nullptr);
     addEventConnection(
         pQuitButton->subscribeEvent(
             CEGUI::PushButton::EventClicked,
-            CEGUI::Event::Subscriber(&MenuModeMain::quitButtonPressed, this)
+            CEGUI::Event::Subscriber([] (const CEGUI::EventArgs& e) {
+                ODFrameListener::getSingletonPtr()->requestExit();
+                return true;
+            })
         )
     );
 }
@@ -96,16 +91,13 @@ void MenuModeMain::connectModeChangeEvent(CEGUI::Window* parent, const std::stri
 
     addEventConnection(
         childButton->subscribeEvent(
-          CEGUI::PushButton::EventClicked,
-          CEGUI::Event::Subscriber(ModeChanger{this, mode})
+            CEGUI::PushButton::EventClicked,
+            CEGUI::Event::Subscriber([this, mode] (const CEGUI::EventArgs& e) {
+                changeModeEvent(mode, e);
+                return true;
+            })
         )
     );
-}
-
-bool MenuModeMain::quitButtonPressed(const CEGUI::EventArgs&)
-{
-    ODFrameListener::getSingletonPtr()->requestExit();
-    return true;
 }
 
 bool MenuModeMain::toggleSettings(const CEGUI::EventArgs&)
