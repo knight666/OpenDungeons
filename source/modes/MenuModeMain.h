@@ -42,7 +42,6 @@ private:
 
     //! \brief Helper function to connect a button to a mode change
     void connectModeChangeEvent(CEGUI::Window* parent, const std::string& buttonName, AbstractModeManager::ModeType mode);
-    bool quitButtonPressed(const CEGUI::EventArgs&);
     bool toggleSettings(const CEGUI::EventArgs&);
 };
 
