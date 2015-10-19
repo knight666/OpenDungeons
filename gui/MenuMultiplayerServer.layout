@@ -5,66 +5,161 @@
         <Property name="Area" value="{{0,0},{0,0},{1,2},{1,0}}" />
         <Property name="Image" value="ODMainMenuBackground/MainMenuBackground" />
         <Property name="MaxSize" value="{{1,0},{1,0}}" />
-        <Property name="FrameEnabled" value="False" />
-        <Property name="BackgroundEnabled" value="False" />
+        <Property name="FrameEnabled" value="false" />
+        <Property name="BackgroundEnabled" value="false" />
         <Window type="OD/StaticText" name="LoadingText" >
             <Property name="Area" value="{{0.5,-294},{0.5,260},{0.5,306},{0.5,280}}" />
             <Property name="Text" value="Loading..." />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
-            <Property name="FrameEnabled" value="False" />
+            <Property name="FrameEnabled" value="false" />
             <Property name="HorzFormatting" value="CentreAligned" />
-            <Property name="BackgroundEnabled" value="False" />
+            <Property name="BackgroundEnabled" value="false" />
+            <AutoWindow namePath="__auto_hscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+            </AutoWindow>
+            <AutoWindow namePath="__auto_vscrollbar__" >
+                <Property name="VerticalScrollbar" value="true" />
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+            </AutoWindow>
         </Window>
         <Window type="OD/StaticImage" name="WelcomeBanner" >
             <Property name="Area" value="{{0.5,-320},{0,52},{0.5,320},{0,191}}" />
             <Property name="Image" value="ODLogo/Logo" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
-            <Property name="FrameEnabled" value="False" />
-            <Property name="BackgroundEnabled" value="False" />
+            <Property name="FrameEnabled" value="false" />
+            <Property name="BackgroundEnabled" value="false" />
         </Window>
         <Window type="OD/StaticText" name="VersionText" >
             <Property name="Area" value="{{0.5,200},{0,171},{0.5,300},{0,191}}" />
             <Property name="Text" value="undefined" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
-            <Property name="FrameEnabled" value="False" />
-            <Property name="BackgroundEnabled" value="False" />
+            <Property name="FrameEnabled" value="false" />
+            <Property name="BackgroundEnabled" value="false" />
+            <AutoWindow namePath="__auto_hscrollbar__" >
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+            </AutoWindow>
+            <AutoWindow namePath="__auto_vscrollbar__" >
+                <Property name="VerticalScrollbar" value="true" />
+                <AutoWindow namePath="__auto_incbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+                <AutoWindow namePath="__auto_decbtn__" >
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </AutoWindow>
+            </AutoWindow>
         </Window>
         <Window type="OD/FrameWindow" name="LevelWindowFrame" >
             <Property name="Area" value="{{0.5,-315},{0.5,-190},{0.5,315},{0.5,240}}" />
             <Property name="Text" value="Please choose a Level..." />
             <Property name="MaxSize" value="{{0,630},{0,430}}" />
             <Property name="MinSize" value="{{0,630},{0,430}}" />
-            <Property name="AlwaysOnTop" value="True" />
+            <Property name="AlwaysOnTop" value="true" />
+            <AutoWindow namePath="__auto_titlebar__" >
+                <Property name="AlwaysOnTop" value="false" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </AutoWindow>
+            <AutoWindow namePath="__auto_closebutton__" >
+                <Property name="AlwaysOnTop" value="true" />
+                <Property name="WantsMultiClickEvents" value="false" />
+            </AutoWindow>
             <Window type="OD/Listbox" name="LevelSelect" >
-                <Property name="Area" value="{{0,15},{0,35},{0.5,-40},{0.7,0}}" />
-                <Property name="ForceVertScrollbar" value="True" />
-                <Property name="Sort" value="True" />
+                <Property name="Area" value="{{0,15},{0,35},{0.5,-40},{1,-85}}" />
+                <Property name="Sort" value="true" />
+                <Property name="ForceVertScrollbar" value="true" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <Property name="VerticalScrollbar" value="true" />
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                </AutoWindow>
             </Window>
             <Window type="OD/StaticText" name="MapDescriptionText" >
-                <Property name="Area" value="{{0.5,-20},{0,35},{1,-15},{0.7,0}}" />
+                <Property name="Area" value="{{0.5,-20},{0,35},{1,-15},{1,-85}}" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
-                <Property name="FrameEnabled" value="False" />
+                <Property name="FrameEnabled" value="false" />
                 <Property name="HorzFormatting" value="WordWrapLeftAligned" />
                 <Property name="VertFormatting" value="TopAligned" />
-                <Property name="BackgroundEnabled" value="False" />
+                <Property name="BackgroundEnabled" value="false" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <Property name="VerticalScrollbar" value="true" />
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                </AutoWindow>
             </Window>
             <Window type="OD/MainMenuButton" name="ServerButton" >
-                <Property name="Area" value="{{0.5,152},{0,331},{0.5,296},{0,411}}" />
-                <Property name="Text" value="Host Game" />
+                <Property name="Area" value="{{1,-165},{1,-80},{1,-15},{1,-20}}" />
+                <Property name="Text" value="HOST" />
+                <Property name="WantsMultiClickEvents" value="false" />
             </Window>
             <Window type="OD/MainMenuButton" name="BackButton" >
-                <Property name="Area" value="{{0.3,111},{0,332},{0.3,255},{0,412}}" />
-                <Property name="Text" value="Back" />
+                <Property name="Area" value="{{1,-320},{1,-80},{1,-170},{1,-20}}" />
+                <Property name="Text" value="BACK" />
+                <Property name="WantsMultiClickEvents" value="false" />
             </Window>
             <Window type="OD/StaticText" name="NickText" >
-                <Property name="Area" value="{{0.3,-166},{0,356},{0.3,-80},{0,386}}" />
+                <Property name="Area" value="{{0.3,-166},{1,-70},{0.3,-80},{1,-40}}" />
                 <Property name="Text" value="Nickname:" />
                 <Property name="MaxSize" value="{{1,0},{1,0}}" />
-                <Property name="FrameEnabled" value="False" />
-                <Property name="BackgroundEnabled" value="False" />
+                <Property name="FrameEnabled" value="false" />
+                <Property name="BackgroundEnabled" value="false" />
+                <AutoWindow namePath="__auto_hscrollbar__" >
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                </AutoWindow>
+                <AutoWindow namePath="__auto_vscrollbar__" >
+                    <Property name="VerticalScrollbar" value="true" />
+                    <AutoWindow namePath="__auto_incbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                    <AutoWindow namePath="__auto_decbtn__" >
+                        <Property name="WantsMultiClickEvents" value="false" />
+                    </AutoWindow>
+                </AutoWindow>
             </Window>
             <Window type="OD/Editbox" name="NickEdit" >
-                <Property name="Area" value="{{0.3,-80},{0,356},{0.3,84},{0,386}}" />
+                <Property name="Area" value="{{0.3,-80},{1,-70},{0.3,84},{1,-40}}" />
             </Window>
         </Window>
     </Window>

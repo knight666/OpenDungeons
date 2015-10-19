@@ -36,6 +36,7 @@ public:
 
 private:
     CEGUI::Window* mRoot;
+    CEGUI::Window* mMultiplayerItems;
 
     //! \brief The Settings window
     SettingsWindow mSettings;

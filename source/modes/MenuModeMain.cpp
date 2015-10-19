@@ -39,11 +39,14 @@ MenuModeMain::MenuModeMain(ModeManager *modeManager):
     OD_ASSERT_TRUE(pMenuItems != nullptr);
 
     connectModeChangeEvent(pMenuItems, "MapEditorButton", AbstractModeManager::ModeType::MENU_EDITOR);
-    connectModeChangeEvent(pMenuItems, "StartSkirmishButton", AbstractModeManager::ModeType::MENU_SKIRMISH);
     connectModeChangeEvent(pMenuItems, "StartReplayButton", AbstractModeManager::ModeType::MENU_REPLAY);
-    connectModeChangeEvent(pMenuItems, "StartMultiplayerClientButton", AbstractModeManager::ModeType::MENU_MULTIPLAYER_CLIENT);
-    connectModeChangeEvent(pMenuItems, "StartMultiplayerServerButton", AbstractModeManager::ModeType::MENU_MULTIPLAYER_SERVER);
     connectModeChangeEvent(pMenuItems, "LoadGameButton", AbstractModeManager::ModeType::MENU_LOAD_SAVEDGAME);
+
+    mMultiplayerItems = pMenuItems->getChild("MultiplayerItems");
+    OD_ASSERT_TRUE(mMultiplayerItems != nullptr);
+    connectModeChangeEvent(mMultiplayerItems, "StartSkirmishButton", AbstractModeManager::ModeType::MENU_SKIRMISH);
+    connectModeChangeEvent(mMultiplayerItems, "StartMultiplayerClientButton", AbstractModeManager::ModeType::MENU_MULTIPLAYER_CLIENT);
+    connectModeChangeEvent(mMultiplayerItems, "StartMultiplayerServerButton", AbstractModeManager::ModeType::MENU_MULTIPLAYER_SERVER);
 
     CEGUI::Window* pSettingsButton = pMenuItems->getChild("SettingsButton");
     OD_ASSERT_TRUE(pSettingsButton != nullptr);
@@ -86,7 +89,7 @@ void MenuModeMain::activate()
 
 void MenuModeMain::connectModeChangeEvent(CEGUI::Window* parent, const std::string& buttonName, AbstractModeManager::ModeType mode)
 {
-    CEGUI::Window* childButton = parent->getChild("MapEditorButton");
+    CEGUI::Window* childButton = parent->getChild(buttonName.c_str());
     OD_ASSERT_TRUE(childButton != nullptr);
 
     addEventConnection(
