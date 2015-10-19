@@ -10,16 +10,6 @@
         <Window type="DefaultWindow" name="MenuItems" >
             <Property name="Area" value="{{0,0},{0,-1},{1,0},{1,-1}}" />
             <Property name="MaxSize" value="{{1,0},{1,0}}" />
-            <Window type="OD/MainMenuButton" name="StartMultiplayerClientButton" >
-                <Property name="Area" value="{{0,330},{0,415},{0,630},{0,475}}" />
-                <Property name="Text" value="JOIN GAME" />
-                <Property name="WantsMultiClickEvents" value="false" />
-            </Window>
-            <Window type="OD/MainMenuButton" name="StartMultiplayerServerButton" >
-                <Property name="Area" value="{{0,330},{0,340},{0,630},{0,400}}" />
-                <Property name="Text" value="HOST GAME" />
-                <Property name="WantsMultiClickEvents" value="false" />
-            </Window>
             <Window type="OD/MainMenuButton" name="LoadGameButton" >
                 <Property name="Area" value="{{0,15},{0,190},{0,315},{0,250}}" />
                 <Property name="Text" value="LOAD GAME" />
@@ -50,15 +40,29 @@
                 <Property name="Text" value="MULTIPLAYER" />
                 <Property name="WantsMultiClickEvents" value="false" />
             </Window>
-            <Window type="OD/MainMenuButton" name="StartSkirmishButton" >
-                <Property name="Area" value="{{0,330},{0,265},{0,630},{0,325}}" />
-                <Property name="Text" value="SKIRMISH" />
-                <Property name="WantsMultiClickEvents" value="false" />
-            </Window>
-            <Window type="OD/MainMenuButton" name="LoadGameButton2" >
+            <Window type="OD/MainMenuButton" name="StartReplayButton" >
                 <Property name="Area" value="{{0,15},{0,115},{0,315},{0,175}}" />
                 <Property name="Text" value="CONTINUE" />
                 <Property name="WantsMultiClickEvents" value="false" />
+            </Window>
+            <Window type="DefaultWindow" name="MultiplayerItems" >
+                <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Window type="OD/MainMenuButton" name="StartSkirmishButton" >
+                    <Property name="Area" value="{{0,330},{0,265},{0,630},{0,325}}" />
+                    <Property name="Text" value="SKIRMISH" />
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </Window>
+                <Window type="OD/MainMenuButton" name="StartMultiplayerClientButton" >
+                    <Property name="Area" value="{{0,330},{0,415},{0,630},{0,475}}" />
+                    <Property name="Text" value="JOIN GAME" />
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </Window>
+                <Window type="OD/MainMenuButton" name="StartMultiplayerServerButton" >
+                    <Property name="Area" value="{{0,330},{0,340},{0,630},{0,400}}" />
+                    <Property name="Text" value="HOST GAME" />
+                    <Property name="WantsMultiClickEvents" value="false" />
+                </Window>
             </Window>
         </Window>
         <Window type="OD/StaticText" name="VersionText" >
