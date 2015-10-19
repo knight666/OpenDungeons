@@ -35,11 +35,13 @@ public:
     void activate() final override;
 
 private:
+    CEGUI::Window* mRoot;
+
     //! \brief The Settings window
     SettingsWindow mSettings;
 
     //! \brief Helper function to connect a button to a mode change
-    void connectModeChangeEvent(const std::string& buttonName, AbstractModeManager::ModeType mode);
+    void connectModeChangeEvent(CEGUI::Window* parent, const std::string& buttonName, AbstractModeManager::ModeType mode);
     bool quitButtonPressed(const CEGUI::EventArgs&);
     bool toggleSettings(const CEGUI::EventArgs&);
 };

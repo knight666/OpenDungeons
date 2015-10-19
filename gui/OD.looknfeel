@@ -162,7 +162,8 @@
 
     <WidgetLook name="OD/MainMenuButton">
         <Property name="WantsMultiClickEvents" value="False" />
-        <PropertyDefinition initialValue="FFFFFFFF" name="NormalTextColour" redrawOnWrite="true" />
+        <Property name="Font" value="NotoSerif-Regular-Large" />
+        <PropertyDefinition initialValue="FFA9773A" name="NormalTextColour" redrawOnWrite="true" />
         <PropertyDefinition initialValue="FFFFFFFF" name="HoverTextColour" redrawOnWrite="true" />
         <PropertyDefinition initialValue="FFFFFFFF" name="PushedTextColour" redrawOnWrite="true" />
         <PropertyDefinition initialValue="FF7F7F7F" name="DisabledTextColour" redrawOnWrite="true" />
