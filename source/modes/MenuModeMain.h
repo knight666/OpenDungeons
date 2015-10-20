@@ -36,7 +36,9 @@ public:
 
 private:
     CEGUI::Window* mRoot;
+    CEGUI::PushButton* mMultiplayerButton;
     CEGUI::Window* mMultiplayerItems;
+    bool mMultiplayerOpen;
 
     //! \brief The Settings window
     SettingsWindow mSettings;
@@ -44,6 +46,7 @@ private:
     //! \brief Helper function to connect a button to a mode change
     void connectModeChangeEvent(CEGUI::Window* parent, const std::string& buttonName, AbstractModeManager::ModeType mode);
     bool toggleSettings(const CEGUI::EventArgs&);
+    bool onMultiplayerSelected(const CEGUI::EventArgs& e);
 };
 
 #endif // MENUMODEMAIN_H

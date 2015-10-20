@@ -33,6 +33,9 @@
 MenuModeMain::MenuModeMain(ModeManager *modeManager):
     AbstractApplicationMode(modeManager, ModeManager::MENU_MAIN),
     mRoot(getModeManager().getGui().getGuiSheet(Gui::mainMenu)),
+    mMultiplayerItems(nullptr),
+    mMultiplayerButton(nullptr),
+    mMultiplayerOpen(false),
     mSettings(SettingsWindow(getModeManager().getGui().getGuiSheet(Gui::mainMenu)))
 {
     CEGUI::Window* pMenuItems = mRoot->getChild("MenuItems");
@@ -42,11 +45,21 @@ MenuModeMain::MenuModeMain(ModeManager *modeManager):
     connectModeChangeEvent(pMenuItems, "StartReplayButton", AbstractModeManager::ModeType::MENU_REPLAY);
     connectModeChangeEvent(pMenuItems, "LoadGameButton", AbstractModeManager::ModeType::MENU_LOAD_SAVEDGAME);
 
+    mMultiplayerButton = reinterpret_cast<CEGUI::PushButton*>(pMenuItems->getChild("MultiplayerButton"));
+    OD_ASSERT_TRUE(mMultiplayerButton != nullptr);
+    addEventConnection(
+        mMultiplayerButton->subscribeEvent(
+            CEGUI::PushButton::EventClicked,
+            CEGUI::Event::Subscriber(&MenuModeMain::onMultiplayerSelected, this)
+        )
+    );
+
     mMultiplayerItems = pMenuItems->getChild("MultiplayerItems");
     OD_ASSERT_TRUE(mMultiplayerItems != nullptr);
     connectModeChangeEvent(mMultiplayerItems, "StartSkirmishButton", AbstractModeManager::ModeType::MENU_SKIRMISH);
     connectModeChangeEvent(mMultiplayerItems, "StartMultiplayerClientButton", AbstractModeManager::ModeType::MENU_MULTIPLAYER_CLIENT);
     connectModeChangeEvent(mMultiplayerItems, "StartMultiplayerServerButton", AbstractModeManager::ModeType::MENU_MULTIPLAYER_SERVER);
+    mMultiplayerItems->setVisible(false);
 
     CEGUI::Window* pSettingsButton = pMenuItems->getChild("SettingsButton");
     OD_ASSERT_TRUE(pSettingsButton != nullptr);
@@ -109,5 +122,15 @@ bool MenuModeMain::toggleSettings(const CEGUI::EventArgs&)
         mSettings.onCancelSettings();
     else
         mSettings.show();
+    return true;
+}
+
+bool MenuModeMain::onMultiplayerSelected(const CEGUI::EventArgs& e)
+{
+    mMultiplayerOpen = !mMultiplayerOpen;
+
+    mMultiplayerItems->setVisible(mMultiplayerOpen);
+    mMultiplayerButton->setPushedState(mMultiplayerOpen);
+
     return true;
 }
