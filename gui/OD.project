@@ -17,6 +17,7 @@
         <Item path="ODLogo.imageset" type="file" />
         <Item path="ODMainMenuBackground.imageset" type="file" />
         <Item path="ODMainMenuButtons.imageset" type="file" />
+        <Item path="ODMenuContainer.imageset" type="file" />
         <Item path="ODSkin.imageset" type="file" />
         <Item path="ODSkin.scheme" type="file" />
         <Item path="WidgetsTest.layout" type="file" />
