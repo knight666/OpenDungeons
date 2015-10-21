@@ -999,17 +999,17 @@
                     <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="BottomEdge"><UnifiedDim scale="1" type="BottomEdge" /></Dim>
                 </Area>
-                <Image component="TopEdge" name="OpenDungeonsSkin/WindowTopEdge" />
-                <Image component="TopLeftCorner" name="OpenDungeonsSkin/WindowTopLeft" />
-                <Image component="TopRightCorner" name="OpenDungeonsSkin/WindowTopRight" />
-                <Image component="BottomLeftCorner" name="OpenDungeonsSkin/WindowBottomLeft" />
-                <Image component="BottomRightCorner" name="OpenDungeonsSkin/WindowBottomRight" />
-                <Image component="LeftEdge" name="OpenDungeonsSkin/WindowLeftEdge" />
-                <Image component="RightEdge" name="OpenDungeonsSkin/WindowRightEdge" />
-                <Image component="BottomEdge" name="OpenDungeonsSkin/WindowBottomEdge" />
-                <Image component="Background" name="OpenDungeonsSkin/ClientBrush" />
-                <VertFormat type="Tiled" />
-                <HorzFormat type="Tiled" />
+                <Image component="TopLeftCorner" name="ODMenuContainer/ContainerTopLeft" />
+                <Image component="TopEdge" name="ODMenuContainer/ContainerTopCenter" />
+                <Image component="TopRightCorner" name="ODMenuContainer/ContainerTopRight" />
+                <Image component="LeftEdge" name="ODMenuContainer/ContainerMiddleLeft" />
+                <Image component="Background" name="ODMenuContainer/ContainerMiddleCenter" />
+                <Image component="RightEdge" name="ODMenuContainer/ContainerMiddleRight" />
+                <Image component="BottomLeftCorner" name="ODMenuContainer/ContainerBottomLeft" />
+                <Image component="BottomEdge" name="ODMenuContainer/ContainerBottomCenter" />
+                <Image component="BottomRightCorner" name="ODMenuContainer/ContainerBottomRight" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="notitle_frame">
@@ -1020,16 +1020,17 @@
                     <Dim type="Width"><UnifiedDim scale="1" type="Width" /></Dim>
                     <Dim type="Height"><UnifiedDim scale="1" type="Height" /></Dim>
                 </Area>
-                <Image component="TopLeftCorner" name="OpenDungeonsSkin/WindowTopLeft" />
-                <Image component="TopRightCorner" name="OpenDungeonsSkin/WindowTopRight" />
-                <Image component="BottomLeftCorner" name="OpenDungeonsSkin/WindowBottomLeft" />
-                <Image component="BottomRightCorner" name="OpenDungeonsSkin/WindowBottomRight" />
-                <Image component="LeftEdge" name="OpenDungeonsSkin/WindowLeftEdge" />
-                <Image component="RightEdge" name="OpenDungeonsSkin/WindowRightEdge" />
-                <Image component="BottomEdge" name="OpenDungeonsSkin/WindowBottomEdge" />
-                <Image component="Background" name="OpenDungeonsSkin/ClientBrush" />
-                <VertFormat type="Tiled" />
-                <HorzFormat type="Tiled" />
+                <Image component="TopLeftCorner" name="ODMenuContainer/ContainerTopLeft" />
+                <Image component="TopEdge" name="ODMenuContainer/ContainerTopCenter" />
+                <Image component="TopRightCorner" name="ODMenuContainer/ContainerTopRight" />
+                <Image component="LeftEdge" name="ODMenuContainer/ContainerMiddleLeft" />
+                <Image component="Background" name="ODMenuContainer/ContainerMiddleCenter" />
+                <Image component="RightEdge" name="ODMenuContainer/ContainerMiddleRight" />
+                <Image component="BottomLeftCorner" name="ODMenuContainer/ContainerBottomLeft" />
+                <Image component="BottomEdge" name="ODMenuContainer/ContainerBottomCenter" />
+                <Image component="BottomRightCorner" name="ODMenuContainer/ContainerBottomRight" />
+                <VertFormat type="Stretched" />
+                <HorzFormat type="Stretched" />
             </FrameComponent>
         </ImagerySection>
         <ImagerySection name="withtitle_noframe_client_area">
