@@ -252,103 +252,123 @@ macro(findpkg_finish PREFIX)
     endif ()
 endmacro(findpkg_finish)
 
+#########################################################
+# Enable cegui plugins
+#########################################################
+
+macro(cegui_enable_plugin PLUGIN_COMPONENT COMPONENT)
+    if(${COMPONENT} STREQUAL ${PLUGIN_COMPONENT})
+        foreach(comp ${CEGUI_${PLUGIN_COMPONENT}_MODULES})
+            set(CEGUI_ENABLED_MODULES ${CEGUI_ENABLED_MODULES} ${PLUGIN_COMPONENT}_${comp})
+        endforeach()
+        set(CEGUI_COMPONENT_${COMPONENT}_FOUND TRUE)
+    else()
+        foreach(comp ${CEGUI_${PLUGIN_COMPONENT}_MODULES})
+            if(${comp} STREQUAL ${COMPONENT})
+                set(CEGUI_ENABLED_MODULES ${CEGUI_ENABLED_MODULES} ${PLUGIN_COMPONENT}_${comp})
+                set(CEGUI_COMPONENT_${COMPONENT}_FOUND TRUE)
+                break()
+            endif()
+        endforeach()
+    endif()
+endmacro(cegui_enable_plugin)
 
 #########################################################
 # Find cegui modules
 #########################################################
-macro(cegui_find_modules PLUGIN_COMPONENT)
+macro(cegui_find_modules MODULE_NAME)
 
-    foreach (comp ${CEGUI_${PLUGIN_COMPONENT}_MODULES})
+    string(REPLACE "_" ";" MODULE_SPLIT ${MODULE_NAME})
+    list(GET MODULE_SPLIT 0 PLUGIN_COMPONENT)
+    list(GET MODULE_SPLIT 1 comp)
+    
+    set(LIBNAME ${comp})
+    set(HEADER ${CEGUI_${PLUGIN_COMPONENT}_MODULES_${comp}_HEADER})
+    set(PKGCONFIG ${CEGUI_${PLUGIN_COMPONENT}_MODULES_${comp}_PKGCONFIG})
+    set(CHECKNOPREFIX ${CEGUI_${PLUGIN_COMPONENT}_MODULES_${comp}_CHECKNOPREFIX})
 
-        set(LIBNAME ${comp})
-        set(HEADER ${CEGUI_${PLUGIN_COMPONENT}_MODULES_${comp}_HEADER})
-        set(PKGCONFIG ${CEGUI_${PLUGIN_COMPONENT}_MODULES_${comp}_PKGCONFIG})
-        set(CHECKNOPREFIX ${CEGUI_${PLUGIN_COMPONENT}_MODULES_${comp}_CHECKNOPREFIX})
+    if (NOT "${HEADER}" STREQUAL "")
 
-        if (NOT "${HEADER}" STREQUAL "")
+        findpkg_begin(CEGUI_${comp})
 
-            findpkg_begin(CEGUI_${comp})
+        if(PKGCONFIG)
+            use_pkgconfig(CEGUI_${comp}_PKGC "CEGUI-${PKGCONFIG}")
+            if(NOT CEGUI_${comp}_PKGC_INCLUDE_DIRS AND CEGUI_LIB_SUFFIX)
+                use_pkgconfig(CEGUI_${comp}_PKGC "CEGUI${CEGUI_LIB_SUFFIX}-${PKGCONFIG}")
+            endif()
+        endif()
 
-            if(PKGCONFIG)
-                use_pkgconfig(CEGUI_${comp}_PKGC "CEGUI-${PKGCONFIG}")
-                if(NOT CEGUI_${comp}_PKGC_INCLUDE_DIRS AND CEGUI_LIB_SUFFIX)
-                    use_pkgconfig(CEGUI_${comp}_PKGC "CEGUI${CEGUI_LIB_SUFFIX}-${PKGCONFIG}")
-                endif()
+        list(LENGTH HEADER len)
+        math(EXPR lenmax "${len} - 1")
+
+        foreach(val RANGE ${lenmax})
+            list(GET HEADER ${val} pathHeader)
+
+            if(CEGUI_${comp}_INCLUDE_DIR)
+                set(CEGUI_${comp}_INCLUDE_DIR_TMP ${CEGUI_${comp}_INCLUDE_DIR})
+                unset(CEGUI_${comp}_INCLUDE_DIR CACHE)
             endif()
 
-            list(LENGTH HEADER len)
-            math(EXPR lenmax "${len} - 1")
+            get_filename_component(head "${pathHeader}" NAME)
+            get_filename_component(dir "${pathHeader}" DIRECTORY)
+            if (NOT "${dir}" STREQUAL "")
+                set(dir "${dir}/")
+            endif ()
 
-            foreach(val RANGE ${lenmax})
-                list(GET HEADER ${val} pathHeader)
+            find_path(CEGUI_${comp}_INCLUDE_DIR NAMES ${head} HINTS ${CEGUI_INCLUDE_DIRS} ${CEGUI_${comp}_PKGC_INCLUDE_DIRS} PATH_SUFFIXES ${dir} CEGUI/${dir})
 
-                if(CEGUI_${comp}_INCLUDE_DIR)
-                    set(CEGUI_${comp}_INCLUDE_DIR_TMP ${CEGUI_${comp}_INCLUDE_DIR})
-                    unset(CEGUI_${comp}_INCLUDE_DIR CACHE)
-                endif()
+            if(CEGUI_${comp}_INCLUDE_DIR_TMP)
+                set(CEGUI_${comp}_INCLUDE_DIR ${CEGUI_${comp}_INCLUDE_DIR} ${CEGUI_${comp}_INCLUDE_DIR_TMP})
+                unset(CEGUI_${comp}_INCLUDE_DIR_TMP CACHE)
+            endif()
 
-                get_filename_component(head "${pathHeader}" NAME)
-                get_filename_component(dir "${pathHeader}" DIRECTORY)
-                if (NOT "${dir}" STREQUAL "")
-                    set(dir "${dir}/")
-                endif ()
+        endforeach()
+        list(REMOVE_DUPLICATES CEGUI_${comp}_INCLUDE_DIR)
 
-                find_path(CEGUI_${comp}_INCLUDE_DIR NAMES ${head} HINTS ${CEGUI_INCLUDE_DIRS} ${CEGUI_${comp}_PKGC_INCLUDE_DIRS} PATH_SUFFIXES ${dir} CEGUI/${dir})
-
-                if(CEGUI_${comp}_INCLUDE_DIR_TMP)
-                    set(CEGUI_${comp}_INCLUDE_DIR ${CEGUI_${comp}_INCLUDE_DIR} ${CEGUI_${comp}_INCLUDE_DIR_TMP})
-                    unset(CEGUI_${comp}_INCLUDE_DIR_TMP CACHE)
-                endif()
-
-            endforeach()
-            list(REMOVE_DUPLICATES CEGUI_${comp}_INCLUDE_DIR)
-
-            set(CEGUI_SUBLIB_DIR "cegui-${CEGUI_VERSION_MAJOR}.${CEGUI_VERSION_MINOR}")
+        set(CEGUI_SUBLIB_DIR "cegui-${CEGUI_VERSION_MAJOR}.${CEGUI_VERSION_MINOR}")
 
 
-            set(CEGUI_${comp}_LIBRARY_NAMES "CEGUI${comp}")
+        set(CEGUI_${comp}_LIBRARY_NAMES "CEGUI${comp}")
+        get_debug_names(CEGUI_${comp}_LIBRARY_NAMES)
+
+        set(CEGUI_${comp}_LIBRARY_NAMES_SUFFIX "CEGUI${comp}${CEGUI_LIB_SUFFIX}")
+        get_debug_names(CEGUI_${comp}_LIBRARY_NAMES_SUFFIX)
+
+        find_library(CEGUI_${comp}_LIBRARY_REL NAMES ${CEGUI_${comp}_LIBRARY_NAMES} ${CEGUI_${comp}_LIBRARY_NAMES_SUFFIX} HINTS ${CEGUI_LIBRARY_DIR_REL} ${CEGUI_LIBRARY_DIR_REL}/${CEGUI_SUBLIB_DIR} ${CEGUI_${comp}_PKGC_LIBRARY_DIRS} PATH_SUFFIXES "" "Release" "RelWithDebInfo" "MinSizeRel")
+        find_library(CEGUI_${comp}_LIBRARY_DBG NAMES ${CEGUI_${comp}_LIBRARY_NAMES_DBG} ${CEGUI_${comp}_LIBRARY_NAMES_SUFFIX_DBG} HINTS ${CEGUI_LIBRARY_DIR_DBG} ${CEGUI_LIBRARY_DIR_DBG}/${CEGUI_SUBLIB_DIR} ${CEGUI_${comp}_PKGC_LIBRARY_DIRS} PATH_SUFFIXES "" "Debug")
+
+        if(CHECKNOPREFIX AND (NOT CEGUI_${comp}_LIBRARY_REL OR NOT CEGUI_${comp}_LIBRARY_DBG))
+            set(CEGUI_${comp}_LIBRARY_NAMES "${comp}")
             get_debug_names(CEGUI_${comp}_LIBRARY_NAMES)
 
-            set(CEGUI_${comp}_LIBRARY_NAMES_SUFFIX "CEGUI${comp}${CEGUI_LIB_SUFFIX}")
+            set(CEGUI_${comp}_LIBRARY_NAMES_SUFFIX "${comp}${CEGUI_LIB_SUFFIX}")
             get_debug_names(CEGUI_${comp}_LIBRARY_NAMES_SUFFIX)
 
             find_library(CEGUI_${comp}_LIBRARY_REL NAMES ${CEGUI_${comp}_LIBRARY_NAMES} ${CEGUI_${comp}_LIBRARY_NAMES_SUFFIX} HINTS ${CEGUI_LIBRARY_DIR_REL} ${CEGUI_LIBRARY_DIR_REL}/${CEGUI_SUBLIB_DIR} ${CEGUI_${comp}_PKGC_LIBRARY_DIRS} PATH_SUFFIXES "" "Release" "RelWithDebInfo" "MinSizeRel")
             find_library(CEGUI_${comp}_LIBRARY_DBG NAMES ${CEGUI_${comp}_LIBRARY_NAMES_DBG} ${CEGUI_${comp}_LIBRARY_NAMES_SUFFIX_DBG} HINTS ${CEGUI_LIBRARY_DIR_DBG} ${CEGUI_LIBRARY_DIR_DBG}/${CEGUI_SUBLIB_DIR} ${CEGUI_${comp}_PKGC_LIBRARY_DIRS} PATH_SUFFIXES "" "Debug")
+        endif()
 
-            if(CHECKNOPREFIX AND (NOT CEGUI_${comp}_LIBRARY_REL OR NOT CEGUI_${comp}_LIBRARY_DBG))
-                set(CEGUI_${comp}_LIBRARY_NAMES "${comp}")
-                get_debug_names(CEGUI_${comp}_LIBRARY_NAMES)
+        make_library_set(CEGUI_${comp}_LIBRARY)
 
-                set(CEGUI_${comp}_LIBRARY_NAMES_SUFFIX "${comp}${CEGUI_LIB_SUFFIX}")
-                get_debug_names(CEGUI_${comp}_LIBRARY_NAMES_SUFFIX)
+        if (NOT CEGUI_STATIC)
+            if (WIN32)
+                find_file(CEGUI_${comp}_BINARY_REL NAMES "CEGUI${comp}.dll" "CEGUI${comp}${CEGUI_LIB_SUFFIX}.dll" HINTS ${CEGUI_BIN_SEARCH_PATH} ${CEGUI_${comp}_PKGC_LIBRARY_DIRS} PATH_SUFFIXES "" "Release" "RelWithDebInfo" "MinSizeRel")
+                find_file(CEGUI_${comp}_BINARY_DBG NAMES "CEGUI${comp}_d.dll" "CEGUI${comp}${CEGUI_LIB_SUFFIX}_d.dll" HINTS ${CEGUI_BIN_SEARCH_PATH} ${CEGUI_${comp}_PKGC_LIBRARY_DIRS} PATH_SUFFIXES "" "Debug")
 
-                find_library(CEGUI_${comp}_LIBRARY_REL NAMES ${CEGUI_${comp}_LIBRARY_NAMES} ${CEGUI_${comp}_LIBRARY_NAMES_SUFFIX} HINTS ${CEGUI_LIBRARY_DIR_REL} ${CEGUI_LIBRARY_DIR_REL}/${CEGUI_SUBLIB_DIR} ${CEGUI_${comp}_PKGC_LIBRARY_DIRS} PATH_SUFFIXES "" "Release" "RelWithDebInfo" "MinSizeRel")
-                find_library(CEGUI_${comp}_LIBRARY_DBG NAMES ${CEGUI_${comp}_LIBRARY_NAMES_DBG} ${CEGUI_${comp}_LIBRARY_NAMES_SUFFIX_DBG} HINTS ${CEGUI_LIBRARY_DIR_DBG} ${CEGUI_LIBRARY_DIR_DBG}/${CEGUI_SUBLIB_DIR} ${CEGUI_${comp}_PKGC_LIBRARY_DIRS} PATH_SUFFIXES "" "Debug")
-            endif()
-
-            make_library_set(CEGUI_${comp}_LIBRARY)
-
-            if (NOT CEGUI_STATIC)
-                if (WIN32)
-                    find_file(CEGUI_${comp}_BINARY_REL NAMES "CEGUI${comp}.dll" "CEGUI${comp}${CEGUI_LIB_SUFFIX}.dll" HINTS ${CEGUI_BIN_SEARCH_PATH} ${CEGUI_${comp}_PKGC_LIBRARY_DIRS} PATH_SUFFIXES "" "Release" "RelWithDebInfo" "MinSizeRel")
-                    find_file(CEGUI_${comp}_BINARY_DBG NAMES "CEGUI${comp}_d.dll" "CEGUI${comp}${CEGUI_LIB_SUFFIX}_d.dll" HINTS ${CEGUI_BIN_SEARCH_PATH} ${CEGUI_${comp}_PKGC_LIBRARY_DIRS} PATH_SUFFIXES "" "Debug")
-
-                     if(CHECKNOPREFIX AND (NOT CEGUI_${comp}_LIBRARY_REL OR NOT CEGUI_${comp}_LIBRARY_DBG))
-                         find_file(CEGUI_${comp}_BINARY_REL NAMES "${comp}${CEGUI_LIB_SUFFIX}.dll" HINTS ${CEGUI_BIN_SEARCH_PATH} PATH_SUFFIXES "" "Release" "RelWithDebInfo" "MinSizeRel")
-                         find_file(CEGUI_${comp}_BINARY_DBG NAMES "${comp}${CEGUI_LIB_SUFFIX}_d.dll" HINTS ${CEGUI_BIN_SEARCH_PATH} PATH_SUFFIXES "" "Debug")
-                    endif()
+                 if(CHECKNOPREFIX AND (NOT CEGUI_${comp}_LIBRARY_REL OR NOT CEGUI_${comp}_LIBRARY_DBG))
+                     find_file(CEGUI_${comp}_BINARY_REL NAMES "${comp}${CEGUI_LIB_SUFFIX}.dll" HINTS ${CEGUI_BIN_SEARCH_PATH} PATH_SUFFIXES "" "Release" "RelWithDebInfo" "MinSizeRel")
+                     find_file(CEGUI_${comp}_BINARY_DBG NAMES "${comp}${CEGUI_LIB_SUFFIX}_d.dll" HINTS ${CEGUI_BIN_SEARCH_PATH} PATH_SUFFIXES "" "Debug")
                 endif()
-
-                get_filename_component(CEGUI_${comp}_BINARY_DIR_REL "${CEGUI_${comp}_BINARY_REL}" PATH)
-                get_filename_component(CEGUI_${comp}_BINARY_DIR_DBG "${CEGUI_${comp}_BINARY_DBG}" PATH)
-                mark_as_advanced(CEGUI_${comp}_BINARY_REL CEGUI_${comp}_BINARY_DBG CEGUI_${comp}_BINARY_DIR_REL CEGUI_${comp}_BINARY_DIR_DBG)
             endif()
 
-            findpkg_finish(CEGUI_${comp})
+            get_filename_component(CEGUI_${comp}_BINARY_DIR_REL "${CEGUI_${comp}_BINARY_REL}" PATH)
+            get_filename_component(CEGUI_${comp}_BINARY_DIR_DBG "${CEGUI_${comp}_BINARY_DBG}" PATH)
+            mark_as_advanced(CEGUI_${comp}_BINARY_REL CEGUI_${comp}_BINARY_DBG CEGUI_${comp}_BINARY_DIR_REL CEGUI_${comp}_BINARY_DIR_DBG)
+        endif()
 
-        endif ()
+        findpkg_finish(CEGUI_${comp})
 
-    endforeach (comp)
+    endif ()
 
 endmacro(cegui_find_modules)
 
@@ -617,13 +637,48 @@ set(CEGUI_PREFIX_MODULES_WATCH ${CEGUI_PREFIX_MODULES_PATH})
 clear_if_changed(CEGUI_PREFIX_WATCH ${CEGUI_RESET_MODULES_VARS})
 
 
+
+foreach(component ${CEGUI_FIND_COMPONENTS})
+    message(STATUS "Looking for \"${component}\"...")
+    
+    cegui_enable_plugin(BASE ${component})
+    if(${CEGUI_COMPONENT_${component}_FOUND})
+        continue()
+    endif()
+    
+    cegui_enable_plugin(WINDOWSRENDERER ${component})
+    if(${CEGUI_COMPONENT_${component}_FOUND})
+        continue()
+    endif()
+    
+    cegui_enable_plugin(RENDERER ${component})
+    if(${CEGUI_COMPONENT_${component}_FOUND})
+        continue()
+    endif()
+    
+    cegui_enable_plugin(IMAGECODEC ${component})
+    if(${CEGUI_COMPONENT_${component}_FOUND})
+        continue()
+    endif()
+    
+    cegui_enable_plugin(PARSER ${component})
+    if(${CEGUI_COMPONENT_${component}_FOUND})
+        continue()
+    endif()
+    
+    cegui_enable_plugin(SCRIPT ${component})
+    if(CEGUI_COMPONENT_${COMPONENT}_FOUND)
+        continue()
+    endif()
+endforeach()
+
+
 # Find modules
-cegui_find_modules(BASE)
-cegui_find_modules(WINDOWSRENDERER)
-cegui_find_modules(RENDERER)
-cegui_find_modules(IMAGECODEC)
-cegui_find_modules(PARSER)
-cegui_find_modules(SCRIPT)
+message(STATUS "Adding dependent modules:")
+foreach(mod ${CEGUI_ENABLED_MODULES})
+    message(STATUS "-- ${mod}")
+    cegui_find_modules(${mod})
+endforeach()
 
 
 # Find modules

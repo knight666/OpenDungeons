@@ -420,7 +420,7 @@ ENDIF ()
 find_package(Threads REQUIRED)
 find_package(OIS REQUIRED)
 find_package(OGRE REQUIRED)
-find_package(CEGUI REQUIRED)
+find_package(CEGUI REQUIRED COMPONENTS BASE OgreRenderer FreeImageImageCodec SILLYImageCodec TinyXMLParser)
 find_package(SFML 2 REQUIRED COMPONENTS Audio System Network)
 
 if((OGRE_VERSION_MAJOR LESS 1) AND (OGRE_VERSION_MINOR LESS 9))
