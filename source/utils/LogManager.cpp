@@ -35,9 +35,9 @@ LogManager::~LogManager()
 
 }
 
-void LogManager::addSink(const std::shared_ptr<LogSink>& sink)
+void LogManager::addSink(std::unique_ptr<LogSink> sink)
 {
-    mSinks.push_back(sink);
+    mSinks.push_back(std::move(sink));
 }
 
 void LogManager::setLevel(LogMessageLevel level)
@@ -50,9 +50,9 @@ void LogManager::setModuleLevel(const char* module, LogMessageLevel level)
     mModuleLevel[module] = level;
 }
 
-void LogManager::logMessage(LogMessageLevel level, const char* filepath, int line, const char* format, ...)
+void LogManager::logMessage(LogMessageLevel level, const char* filepath, int line, const std::string& message)
 {
-    std::unique_lock<std::mutex>(mLock);
+    sf::Lock locked(mLock);
 
     // module
 
@@ -87,26 +87,16 @@ void LogManager::logMessage(LogMessageLevel level, const char* filepath, int lin
     time_t current_time = ::time(0);
     struct tm* now = ::localtime(&current_time);
 
-    char timestamp[32] = { 0 };
-    snprintf(
-        timestamp,
-        31,
-        "%02d:%02d:%02d",
-        now->tm_hour,
-        now->tm_min,
-        now->tm_sec);
+    mTimestampStream.str("");
+    mTimestampStream
+        << std::setfill('0') << std::setw(2) << now->tm_hour << ':'
+        << std::setfill('0') << std::setw(2) << now->tm_min << ':'
+        << std::setfill('0') << std::setw(2) << now->tm_sec;
 
-    // message
-
-    char message_formatted[1024] = { 0 };
-
-    va_list arguments;
-    va_start(arguments, format);
-    vsnprintf(message_formatted, 1023, format, arguments);
-    va_end(arguments);
+    std::string timestamp = mTimestampStream.str();
 
     for (const auto& sink : mSinks)
     {
-        sink->write(level, module.c_str(), timestamp, filename.c_str(), line, message_formatted);
+        sink->write(level, module, timestamp, filename, line, message);
     }
 }
